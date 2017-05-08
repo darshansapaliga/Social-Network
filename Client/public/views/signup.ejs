@@ -1,0 +1,97 @@
+<div class="row" ng-controller="UserController" style="padding: 10px; margin-top: 2%">
+
+
+
+    <!-- START Template Main-->
+  <section id="main" role="main">
+    <!-- START Template Container-->
+    <section class="container">
+      <!-- START row-->
+      <div style="overflow-y: scroll;" class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+          <!-- Brand-->
+          <div style="margin-bottom:20px;" class="text-center">
+            <h5 class="semibold text-muted mt-5">Create a new account.</h5>
+          </div>
+          <!-- / Brand-->
+          <!-- Register form-->
+          <form name="form-register" action="" method="POST" class="panel">
+            <ul class="list-table pa15">
+              <li>
+                <!-- Alert message-->
+                <div class="alert alert-warning nm"><span class="semibold">Note :</span>  Please fill all the below field.</div>
+                <!-- / Alert message-->
+              </li>
+              <li style="width:20px;" class="text-right"><a href="javascript:void(0);"><i class="ico-question-sign fsize16"></i></a></li>
+            </ul>
+            <hr class="nm"/>
+            <div class="panel-body">
+                <div class="form-group">
+                  <div class="has-icon pull-left">
+                    <input type="text" name="email" required="true" placeholder="First Name" class="form-control"/><i class="ico-user2 form-control-icon"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="has-icon pull-left">
+                    <input type="text" name="email" required="true" placeholder="Last Name" class="form-control"/><i class="ico-user2 form-control-icon"></i>
+                  </div>
+                </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <input type="email" name="email" required="true" placeholder="Email" class="form-control"/><i class="ico-user2 form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <input type="text" name="email" required="true" placeholder="Username" class="form-control"/><i class="ico-user2 form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <input type="password" name="password" required="true" placeholder="Password" class="form-control"/><i class="ico-asterisk form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <input type="password" name="retype-password" placeholder="Retype Password" data-parsley-equalto="input[name=password]" required="true" class="form-control"/><i class="ico-asterisk form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                    <input type="Number" name="contactNo" ng-model="contactNo" placeholder="Contact No" required="true" class="form-control" id="pwd" placeholder="Enter your contact number">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <input type="text" name="companyName" placeholder="Location" class="form-control"/><i class="ico-key2 form-control-icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <button type="submit" class="btn btn-block btn-success"><span class="semibold" ng-disabled="password == null || firstName == null || email == null || username == null" ng-click = signup()>Sign up</span></button>
+            </div>
+          </form>
+          <!-- Register form-->
+          <hr/>
+          <!-- horizontal line-->
+          <p class="text-center"><span class="text-muted">Already have an account?<a href="/login" class="semibold">Sign in here</a></span></p>
+        </div>
+      </div>
+      <!-- / END row-->
+    </section>
+    <!-- / END Template Container-->
+  </section>
+  <!-- / END Template Main-->
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

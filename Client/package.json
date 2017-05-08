@@ -1,0 +1,31 @@
+{
+  "name": "social-network",
+  "version": "1.0.0",
+  "description": "social network for smart cities",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqp": "^0.2.6",
+    "body-parser": "^1.14.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "connect-mongo": "^0.8.2",
+    "cookie-parser": "^1.4.0",
+    "ejs": "*",
+    "express": "^4.13.3",
+    "express-session": "^1.12.1",
+    "kerberos": "0.0.21",
+    "mongoose": "^4.6.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "underscore": "^1.8.3"
+  }
+}

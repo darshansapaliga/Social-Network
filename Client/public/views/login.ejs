@@ -1,0 +1,152 @@
+<div class="row" ng-controller="UserController" style="padding: 10px; margin-top: 5%">
+  <!-- <div class="span2">
+    <img src="images/ebayLarge.png"  style="margin-top: 70px; margin-left: 600px">
+    <p ng-init="signin=true; emailVerified = true"></p>
+  <div>
+  <div class="span6 panel-body col-lg-5 center"> -->
+    <!-- <h1 align="center">Sign in</h1><br> -->
+    <!-- <ul class="nav nav-tabs">
+      <li class="active"><a ng-click="signin=true; register=false">SignIn</a></li>
+      <li><a ng-click="register=true; signin=false">Register</a></li>
+    </ul>
+    <div class="tab-pane" ng-if="signin" ng-controller="UserController" style="background-color: white; padding: 10px">
+      <div class="form-group"  style="margin-top: 20px">
+        <form class="form-horizontal" method="POST">
+          <input type="email" name="email" ng-model="email" ng-change= verifyEmail() class="form-control" id="email" placeholder="Enter email">
+          <span ng-if= !emailVerified> <b> Error: user email not found </b></span>
+          </br>
+          <input type="password" name="password" ng-model="password" class="form-control" id="pwd" placeholder="Enter password"> -->
+          <!-- <p id="passwordHelpBlock" class="form-text text-muted">
+              Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+          </p> -->
+          <!-- <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" ng-disabled="password == null || email == null" ng-click = login()>Sign in</button>
+        </form>
+        </br>
+        <p align="center">
+          Dont have an account? Register above
+          to get started.
+        </p>
+      </div>
+    </div>
+    <div class="tab-pane" ng-if="register" ng-controller="UserController" style="background-color: white; padding: 10px">
+      <div class="form-group" style="margin-top: 20px">
+        <form class="form-horizontal" method="POST">
+          <input type="text" name="name" ng-model="firstName" class="form-control" id="name" placeholder="Enter your First Name" required>
+          </br>
+          <input type="text" name="name" ng-model="lastName" class="form-control" id="name" placeholder="Enter your Last Name">
+          </br>
+          <input type="email" name="email" ng-model="email" class="form-control" id="email" placeholder="Enter your email" required>
+          </br>
+          <input type="text" name="username" ng-model="username" class="form-control" id="pwd" placeholder="Choose a user name" required>
+          </br>
+          <input type="password" name="password" ng-model="password" class="form-control" id="pwd" placeholder="Choose password" required>
+          </br>
+          <input type="text" name="birthday" ng-model="birthday" class="form-control" id="pwd" placeholder="Birthday: MM/DD/YYYY">
+          </br>
+          <input type="Number" name="contactNo" ng-model="contactNo" class="form-control" id="pwd" placeholder="Enter your contact number">
+          </br>
+          <input type="String" name="address" ng-model="address" class="form-control" id="pwd" placeholder="Enter your location">
+          </br>
+          <button type="submit" class="btn btn-primary btn-block" ng-disabled="password == null || firstName == null || email == null || username == null" ng-click = signup()>Register</button>
+        </br>
+        </form>
+        <p align="center">
+          Already have an account? Log-In above
+          to get started.
+        </p>
+      </div>
+    </div>
+  </div> -->
+  <!-- <h1 ng-if="signin">signin</h1><h1 ng-if="register">register</h1> -->
+
+
+
+
+
+
+
+  <!-- START Template Main-->
+  <section id="main" role="main">
+    <!-- START Template Container-->
+    <section class="container">
+      <!-- START row-->
+      <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+          <!-- Login form-->
+          <div style="margin-bottom:20px;" class="text-center">
+            <h5 class="semibold text-muted mt-5">Sign in to an existing account</h5>
+          </div>
+          <form name="form-login" action="" method="POST" class="panel">
+            <div class="panel-body">
+              <div class="form-group">
+                <div class="form-stack has-icon pull-left">
+                  <input name="email" type="email" placeholder="Email" ng-model="email" ng-change= verifyEmail() data-parsley-errors-container="#error-container" data-parsley-error-message="Please fill in your username / email" data-parsley-required="" required="required" class="form-control input-lg"/><i class="ico-user2 form-control-icon"></i>
+                  <span ng-if= !emailVerified> <b> Error: user email not found </b></span>
+                </div>
+                <div class="form-stack has-icon pull-left">
+                  <input name="password" type="password" ng-model="password" id="pwd" placeholder="Password" data-parsley-errors-container="#error-container" data-parsley-error-message="Please fill in your password" data-parsley-required="" required="required" class="form-control input-lg"/><i class="ico-lock2 form-control-icon"></i>
+                  <!-- <p id="passwordHelpBlock" class="form-text text-muted">
+                      Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                  </p> -->
+                </div>
+              </div>
+              <!-- Error container-->
+              <div id="error-container" class="mb15"></div>
+              <!-- / Error container-->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="checkbox custom-checkbox">
+                      <input id="remember" type="checkbox" name="remember" value="1"/>
+                      <label for="remember">  Remember me</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group nm">
+                <button type="submit" class="btn btn-block btn-success" ng-disabled="password == null || email == null" ng-click = login()>
+                    <span class="semibold">Sign In</span>
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- Login form-->
+          <hr/>
+          <!-- horizontal line-->
+          <p class="text-muted text-center">Don't have any account?<a href="/signup" class="semibold">Sign up to get started</a></p>
+        </div>
+      </div>
+      <!-- / END row-->
+    </section>
+    <!-- / END Template Container-->
+  </section>
+  <!-- / END Template Main-->
+  <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time)-->
+  <!-- Application and vendor script : mandatory-->
+  <!-- <script type="text/javascript" src="../javascript/vendor.js"></script>
+  <script type="text/javascript" src="../javascript/core.js"></script>
+  <script type="text/javascript" src="../javascript/backend/app.js"></script> -->
+  <!-- / Application and vendor script : mandatory-->
+  <!-- Plugins and page level script : optional-->
+  <!-- <script type="text/javascript" src="../plugins/parsley/js/parsley.js"></script>
+  <script type="text/javascript" src="../javascript/backend/pages/login.js"></script> -->
+  <!-- / Plugins and page level script : optional-->
+  <!-- / END JAVASCRIPT SECTION-->
+  <!-- / END Body-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
