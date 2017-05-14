@@ -21,7 +21,8 @@ mongoose.connection.once('open', function callback(){
 //require controllers
 var userController = require('./controllers/user'),
     passportController = require('./controllers/passport'),
-    serviecController = require('./controllers/services');
+    serviceController = require('./controllers/services'),
+    categoryController = require('./controllers/categories');
 
 //cookieParser
 app.use(cookieParser());
@@ -218,6 +219,43 @@ cnn.on('ready', function(){
       });
     });
 
+
+    /*
+     |-----------------------------------------------------------
+     | Categories CRUD operations
+     |-----------------------------------------------------------
+    */
+    cnn.queue('getCategories_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        categoryController.getCategories(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getCategories_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+    cnn.queue('postServiceAndCategory_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        categoryController.postServiceAndCategory(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getCategories_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
 
 
 

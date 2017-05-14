@@ -7,21 +7,14 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
 
     //get current user details
     $http({
-      method : "POST",
+      method : "GET",
       url : '/api/currentUser'
     }).success(function(data) {
       if(data){
             $scope.currentUser = data;
-            var date = new Date(data.birthday),
-                month = date.getMonth(),
-                year = date.getYear(),
-                day = date.getDate();
-            console.log(year);
-            var fullBirthday = month+'/'+day+'/'+year;
-            $scope.fullBirthday = fullBirthday;
 
             //send user to services page
-            $state.go("home.services");
+            $state.go("home.categories");
         }else{
             $state.go("home");
         }
@@ -50,10 +43,6 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
     //user login
     $scope.login = function() {
 
-      console.log("hello in login");
-      console.log($scope.formData.loginemail);
-      console.log($scope.formData.loginpassword);
-
         $http({
           method : "POST",
           url : '/api/login',
@@ -69,7 +58,7 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
 
             if(data.email !== null){
               $scope.currentUser = data;
-                $state.go("home.services");
+                $state.go("home.categories");
             }else{
                 alert("Error in login please try again");
             }
@@ -127,7 +116,7 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
 
 
     $scope.toServices = function() {
-        $state.go("home.services");
+        $state.go("home.toCategories");
     };
 
 

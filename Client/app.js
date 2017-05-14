@@ -30,16 +30,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //require controllers
-var userController = require('./controllers/user');
+var userController = require('./controllers/user'),
+    categoryController = require('./controllers/category');
 
-//frontend route
-app.get('*', function(req, res){
-  console.log("----------- * --------");
-  console.log(req.user);
-  res.render('home', {
-    currentUser: req.user
-  });
-});
 
 //api calls
 // app.post('/', userController.isLoggedIn);
@@ -49,14 +42,12 @@ app.post('/api/signup', userController.postSignUp);
 app.post('/api/logout', userController.isLoggedIn, userController.getLogout);
 
 //for verifying user and user session
-app.post('/api/currentUser', userController.getCurrentUser);
+app.get('/api/currentUser', userController.getCurrentUser);
 
-//services api
-// app.post('/api/logout', userController.isLoggedIn, serviceController.getServices);
+//categories
+app.get('/api/getCategories', categoryController.getCategories);
 
-//verify if user is logged in
-// app.post('/isLoggedIn', userController.isLoggedIn);
-
+app.post('/api/postServiceAndCategory', categoryController.postServiceAndCategory);
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

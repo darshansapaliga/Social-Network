@@ -25,10 +25,10 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
       })
 
     //services page
-    .state('home.services', {
+    .state('home.categories', {
         url: 'services',
-        templateUrl: '../views/Services.ejs',
-        controller: 'ServiceController'
+        templateUrl: '../views/categories.ejs',
+        controller: 'CategoryController'
         // resolve: {
         //       userSession: function($state){
         //             //check user for session
@@ -51,21 +51,26 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
         //       }
         //     }
     })
-    .state('home.addservice', {
+    .state('home.addCategory', {
         url: 'addService',
-        templateUrl: '../views/addService.ejs',
-        controller: 'ServiceController'
+        templateUrl: '../views/addCategory.ejs',
+        controller: 'CategoryController'
     })
-    .state('home.service', {
-        url: '/{serviceId}',
-        templateUrl: '../views/services/service.ejs',
-        controller: 'ServiceController'
-    })
-    .state('home.services.service.updateService', {
-        url: '/updateService',
-        templateUrl: '../views/services/updateService.ejs',
-        controller: 'ServiceController'
-    })
+    // .state('home.addservice', {
+    //     url: 'addService',
+    //     templateUrl: '../views/addService.ejs',
+    //     controller: 'ServiceController'
+    // })
+    // .state('home.service', {
+    //     url: '/{serviceId}',
+    //     templateUrl: '../views/services/service.ejs',
+    //     controller: 'ServiceController'
+    // })
+    // .state('home.services.service.updateService', {
+    //     url: '/updateService',
+    //     templateUrl: '../views/services/updateService.ejs',
+    //     controller: 'ServiceController'
+    // })
 
 }).controller("MainController", function(){
 

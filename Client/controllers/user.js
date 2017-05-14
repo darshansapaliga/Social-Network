@@ -101,8 +101,6 @@ exports.deleteUser = function(req, res) {
 
 exports.getCurrentUser = function(req, res){
   var userDetails = req.user;
-  console.log("--------------userDetails----------");
-  console.log(userDetails);
   userDetails = {
     _id: req.user._id,
     firstName: req.user.firstName,
