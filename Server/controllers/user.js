@@ -102,3 +102,22 @@ exports.getUser = function(msg, callback){
     callback(null, userFound);
   });
 };
+
+
+exports.updateUserAccessLevel_queue = function(req, res) {
+
+    var response = {};
+    User.findById(req.id, function(err, user){
+        user.userAccessLevel = "moderator";
+
+        user.save(function(err){
+            if(err)
+                return res(null, response(error = err));
+            response.code = 200;
+        });
+
+        response.data = user;
+        res(null, user);
+    });
+
+}

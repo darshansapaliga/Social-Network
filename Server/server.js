@@ -256,7 +256,21 @@ cnn.on('ready', function(){
         });
       });
     });
-
+    cnn.queue('updateUserAccessLevel_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        userController.updateUserAccessLevel(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getCategories_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
 
 
 });

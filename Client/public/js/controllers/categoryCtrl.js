@@ -88,6 +88,26 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
             console.log("success add category and services");
             console.log(data);
 
+            //on success if user type is update user change to moderator
+            if($scope.currentUser.userAccessLevel == 'user') {
+
+                $http({
+                  method : "POST",
+                  url : '/api/updateUserAccessLevel/'+$scope.currentUser._id
+                }).success(function(data) {
+
+                    if(data.response.code == 200)
+                        $state("home.categories");
+
+                }).error(function(error) {
+                  console.log("Error updating user");
+                  console.log(error);
+                });
+
+            }else {
+                $state.go("home.categories");
+            }
+
 
 
         }).error(function(error){

@@ -49,6 +49,9 @@ app.get('/api/getCategories', categoryController.getCategories);
 
 app.post('/api/postServiceAndCategory', categoryController.postServiceAndCategory);
 
+//update user accesslevel
+app.post('/api/updateUserAccessLevel/:id', userController.updateUserAccessLevel);
+
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
 //     var err = new Error('Not Found');

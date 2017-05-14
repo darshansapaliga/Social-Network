@@ -137,3 +137,14 @@ exports.isLoggedIn = function(req, res, next) {
     // res.send(false);
   }
 };
+
+
+exports.updateUserAccessLevel = function(req, res) {
+
+    mq_client.make_request('updateUserAccessLevel_queue', {id: req.params.id}, function(err, results){
+        if(err)
+            return res.send(err);
+        res.send(results);
+    });
+
+}
