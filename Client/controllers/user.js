@@ -52,13 +52,13 @@ exports.postSignUp = function(req,res){
     var user = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        birthday: req.body.birthday,
         contactNo: req.body.contactNo,
-        location: req.body.address
     };
+
+    console.log("in post signup");
+    console.log(user);
 
     //rabbitmq message call
     // mq_client.make_request('getUser_queue', user, function(err, results){
@@ -112,9 +112,7 @@ exports.getCurrentUser = function(req, res){
     password: req.user.password,
     birthday: req.user.birthday,
     contactNo: req.user.contactNo,
-    address: req.user.address,
-    location: req.user.location,
-    lastLoginDateTime: req.session.lastLoginTime
+    userAccessLevel: req.user.userAccessLevel
   }
   res.send(userDetails);
 };

@@ -20,7 +20,8 @@ mongoose.connection.once('open', function callback(){
 
 //require controllers
 var userController = require('./controllers/user'),
-    passportController = require('./controllers/passport');
+    passportController = require('./controllers/passport'),
+    serviecController = require('./controllers/services');
 
 //cookieParser
 app.use(cookieParser());
@@ -135,6 +136,88 @@ cnn.on('ready', function(){
       });
     });
   });
+
+
+
+    /*
+     |-----------------------------------------------------------
+     | Services CRUD operations
+     |-----------------------------------------------------------
+    */
+
+    //get service
+    cnn.queue('getService_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviecController.getService(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getService_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+
+    //add service
+    cnn.queue('addService_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviecController.addService(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in addService_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+
+
+    //udpate service
+    cnn.queue('updateService_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviecController.updateService(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in updateService_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+
+
+    //delete service
+    cnn.queue('deleteService_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviecController.deleteService(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in deleteService_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
 
 
 

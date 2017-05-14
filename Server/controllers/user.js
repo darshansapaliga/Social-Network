@@ -12,7 +12,6 @@ exports.postSignUp = function(msg, callback){
 
   console.log("------in postSignUp backend----");
   console.log(msg);
-  console.log(callback);
 
   var response  = {};
   var user = new User({
@@ -21,10 +20,7 @@ exports.postSignUp = function(msg, callback){
     username: msg.username,
     email: msg.email,
     password: msg.password,
-    birthday: msg.birthday,
-    contactNo: msg.contactNo,
-    location: msg.address,
-    userAccessLevel: msg.userAccessLevel
+    contactNo: msg.contactNo
   });
   user.save(function(err) {
     if (!err) {

@@ -45,12 +45,11 @@ app.get('*', function(req, res){
 // app.post('/', userController.isLoggedIn);
 app.post('/api/login', userController.postLogin);
 // app.delete('/api/user/:id', userController.deleteUser);
-
 app.post('/api/signup', userController.postSignUp);
-
-app.post('/api/currentUser', userController.isLoggedInAngular, userController.getCurrentUser);
-// app.post('/api/addUser', userController.isLoggedIn, userController.postSignUp);
 app.post('/api/logout', userController.isLoggedIn, userController.getLogout);
+
+//for verifying user and user session
+app.post('/api/currentUser', userController.getCurrentUser);
 
 //services api
 // app.post('/api/logout', userController.isLoggedIn, serviceController.getServices);
