@@ -56,6 +56,12 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
         templateUrl: '../views/addCategory.ejs',
         controller: 'CategoryController'
     })
+    .state('home.clusters', {
+        url: 'clusters',
+        templateUrl: '../views/service.ejs',
+        params: {categoryId: null},
+        controller: 'ServiceController'
+    })
     // .state('home.addservice', {
     //     url: 'addService',
     //     templateUrl: '../views/addService.ejs',

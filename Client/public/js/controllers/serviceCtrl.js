@@ -1,13 +1,12 @@
-developmentApp.controller('ServiceController', function($scope, $state, $rootScope, $http) {
+developmentApp.controller('ServiceController', function($scope, $state, $stateParams, $http) {
 
     $scope.noservicefound = false;
 
     console.log("in service controller");
-    console.log($rootScope.userAccessLevel);
 
     // get current user details
     $http({
-      method : "POST",
+      method : "GET",
       url : '/api/currentUser'
     }).success(function(data) {
       console.log("success currentUser");
@@ -30,56 +29,26 @@ developmentApp.controller('ServiceController', function($scope, $state, $rootSco
     });
 
 
+    console.log("category id from params");
+    console.log($state.params.categoryId);
 
     // get all services
     $http({
-      method : "POST",
-      url : '/api/services'
+      method : "GET",
+      url : '/api/services/'+$state.params.categoryId
     }).success(function(data) {
-      console.log("success services");
+      console.log("success get all services");
       console.log(data);
 
-      if(data) {
-
-
-
-
-      }else {
-            $scope.noservicefound = true;
+      if(!data) {
+          $scope.noservicefound = true;
       }
 
     }).error(function(error) {
-      console.log("Error posting data in currentUser");
+      console.log("Error in get services");
+      console.log(error);
     });
 
-
-
-
-    //adding service
-    $scope.addservice = function() {
-      $http({
-        method : "POST",
-        url : '/api/Services/addService',
-        data : {
-          "name": $scope.name,    //should be unique check and without spaces
-          "description": $scope.description,
-          "moderator": $scope.moderator,
-          "members": $scope.memebers,
-          "servicesGroup": $scope.servicesGroup,
-          "category": $scope.category
-        }
-      }).success(function(data) {
-        console.log("success adding service");
-        console.log(data);
-
-        if(data) {
-          //something
-        }
-
-      }).error(function(error) {
-        console.log("Error posting data in addToCart");
-      });
-    };
 
 
 

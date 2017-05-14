@@ -256,12 +256,45 @@ cnn.on('ready', function(){
         });
       });
     });
+
     cnn.queue('updateUserAccessLevel_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
         userController.updateUserAccessLevel(message, function(err,res){
           if(err)
             console.log(err);
           console.log("------in getCategories_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+    cnn.queue('getServices_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviceController.getServices(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getServices_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+    cnn.queue('getService_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviceController.getService(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getService_queue backend queue calling-----");
           //return index sent
           cnn.publish(m.replyTo, res, {
             contentType:'application/json',

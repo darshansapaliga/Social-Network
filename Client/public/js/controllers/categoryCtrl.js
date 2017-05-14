@@ -124,6 +124,10 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
         $state.go("home.addCategory");
     }
 
+    $scope.toServicesPage = function(categoryId) {
+        $state.go("home.clusters", {categoryId: categoryId});
+    }
+
 
 
 });

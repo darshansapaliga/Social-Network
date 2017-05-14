@@ -8,20 +8,21 @@ var Service = require('../models/Service'),
  |-----------------------------------------------------------
 */
 
-exports.getService = function(msg, callback){
+exports.getServices = function(req, res){
 
-
-	console.log("-----------in getService--------");
-	console.log(msg);
+	console.log("in get services");
+	console.log(req);
 
 	//return response
 	var response  = {};
 
 	//find the service and return
-	Service.findOne({name: msg.name}).exec(function(err, service){
+	Service.find({category: req.categoryId}).exec(function(err, service){
+
+		console.log("inside service");
 
 		if(err)
-			callback(null, response = {err : err, code : "404" });
+			res(null, response = {err : err, code : "404" });
 
 
 		//if service found
@@ -29,12 +30,45 @@ exports.getService = function(msg, callback){
 			response.code = "200";
 			response.data = service;
 		}else {
-			response.code = "404";
+			response.code = "400";
+			response.data = null;
+		}
+		console.log(service);
+		res(null, response);
+
+	});
+
+
+}
+
+/*
+ |-----------------------------------------------------------
+ | GET SINGLE SERVICE
+ |-----------------------------------------------------------
+*/
+exports.getService = function(req, res){
+
+
+	//return response
+	var response  = {};
+
+	//find the service and return
+	Service.findOne({category: req.categoryId}).exec(function(err, service){
+
+		if(err)
+			res(null, response = {err : err, code : "404" });
+
+
+		//if service found
+		if(service) {
+			response.code = "200";
+			response.data = service;
+		}else {
+			response.code = "400";
 			response.data = null;
 		}
 
-		console.log(service);
-		
+		res(null, response);
 
 	});
 
@@ -169,7 +203,7 @@ exports.updateService = function(msg, callback){
 
 					console.log(service);
 					callback(null, response);
-					
+
 
 				}); //end of serviceGroup
 			});
@@ -227,7 +261,7 @@ exports.deleteService = function(msg, callback){
 		}
 
 		console.log(service);
-		
+
 
 	});
 

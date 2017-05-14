@@ -31,7 +31,8 @@ app.use(passport.session());
 
 //require controllers
 var userController = require('./controllers/user'),
-    categoryController = require('./controllers/category');
+    categoryController = require('./controllers/category'),
+    serviceController = require('./controllers/service');
 
 
 //api calls
@@ -51,6 +52,8 @@ app.post('/api/postServiceAndCategory', categoryController.postServiceAndCategor
 
 //update user accesslevel
 app.post('/api/updateUserAccessLevel/:id', userController.updateUserAccessLevel);
+
+app.get('/api/services/:id', serviceController.getServices);
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
