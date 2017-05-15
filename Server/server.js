@@ -78,25 +78,6 @@ cnn.on('ready', function(){
 		});
 	});
 
-  cnn.queue('login_queue', function(q){
-		q.subscribe(function(message, headers, deliveryInfo, m){
-			util.log(util.format( deliveryInfo.routingKey, message));
-			util.log("Message: "+JSON.stringify(message));
-			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
-			userController.postLogin(message, function(err,res){
-        if(err)
-          console.log(err);
-        console.log("------in postSignUp backend queue calling-----");
-        console.log(res);
-				//return index sent
-				cnn.publish(m.replyTo, res, {
-					contentType:'application/json',
-					contentEncoding:'utf-8',
-					correlationId:m.correlationId
-				});
-			});
-		});
-	});
 
   /*
      for passport
@@ -127,7 +108,6 @@ cnn.on('ready', function(){
       passportController.deserializeUser(message, function(err,res){
         if(err)
           console.log(err);
-        console.log("------in deserializeUser_queue backend queue calling-----");
         //return index sent
         cnn.publish(m.replyTo, res, {
           contentType:'application/json',
@@ -147,30 +127,12 @@ cnn.on('ready', function(){
     */
 
     //get service
-    cnn.queue('getService_queue', function(q){
+    cnn.queue('getSingleService_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
-        serviecController.getService(message, function(err,res){
+        serviceController.getSingleService(message, function(err,res){
           if(err)
             console.log(err);
-          console.log("------in getService_queue backend queue calling-----");
-          //return index sent
-          cnn.publish(m.replyTo, res, {
-            contentType:'application/json',
-            contentEncoding:'utf-8',
-            correlationId:m.correlationId
-          });
-        });
-      });
-    });
-
-
-    //add service
-    cnn.queue('addService_queue', function(q){
-      q.subscribe(function(message, headers, deliveryInfo, m){
-        serviecController.addService(message, function(err,res){
-          if(err)
-            console.log(err);
-          console.log("------in addService_queue backend queue calling-----");
+          console.log("------in getSingleService_queue backend queue calling-----");
           //return index sent
           cnn.publish(m.replyTo, res, {
             contentType:'application/json',
@@ -186,7 +148,7 @@ cnn.on('ready', function(){
     //udpate service
     cnn.queue('updateService_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
-        serviecController.updateService(message, function(err,res){
+        serviceController.updateService(message, function(err,res){
           if(err)
             console.log(err);
           console.log("------in updateService_queue backend queue calling-----");
@@ -257,21 +219,6 @@ cnn.on('ready', function(){
       });
     });
 
-    cnn.queue('updateUserAccessLevel_queue', function(q){
-      q.subscribe(function(message, headers, deliveryInfo, m){
-        userController.updateUserAccessLevel(message, function(err,res){
-          if(err)
-            console.log(err);
-          console.log("------in getCategories_queue backend queue calling-----");
-          //return index sent
-          cnn.publish(m.replyTo, res, {
-            contentType:'application/json',
-            contentEncoding:'utf-8',
-            correlationId:m.correlationId
-          });
-        });
-      });
-    });
 
     cnn.queue('getServices_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
@@ -289,12 +236,62 @@ cnn.on('ready', function(){
       });
     });
 
-    cnn.queue('getService_queue', function(q){
+
+    cnn.queue('postUserProblem_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
-        serviceController.getService(message, function(err,res){
+        serviceController.postUserProblem(message, function(err,res){
           if(err)
             console.log(err);
-          console.log("------in getService_queue backend queue calling-----");
+          console.log("------in postUserProblem_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+
+    cnn.queue('getModeratorServices_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviceController.getModeratorServices(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getModeratorServices_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+    cnn.queue('updateServiceStatus_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviceController.updateServiceStatus(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in updateServiceStatus_queue backend queue calling-----");
+          //return index sent
+          cnn.publish(m.replyTo, res, {
+            contentType:'application/json',
+            contentEncoding:'utf-8',
+            correlationId:m.correlationId
+          });
+        });
+      });
+    });
+
+    cnn.queue('getServicesForApprovals_queue', function(q){
+      q.subscribe(function(message, headers, deliveryInfo, m){
+        serviceController.getServicesForApprovals(message, function(err,res){
+          if(err)
+            console.log(err);
+          console.log("------in getServicesForApprovals_queue backend queue calling-----");
           //return index sent
           cnn.publish(m.replyTo, res, {
             contentType:'application/json',

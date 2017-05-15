@@ -1,9 +1,11 @@
 developmentApp.controller('CategoryController', function($scope, $state, $rootScope, $http) {
 
-    console.log("in category controller");
     $scope.categoryChoiceSelected = "new";
+    $scope.specializationChoiceSelected = "new";
+    $scope.specializationamealreadyexist = false;
     $scope.categorynamealreadyexist = false;
     $scope.servicenamealreadyexist = false;
+    $scope.specialization = [];
 
 
     //get user from session
@@ -27,10 +29,14 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
       method : "GET",
       url : '/api/getCategories'
     }).success(function(data) {
-        console.log("in get categories");
-        console.log(data);
       if(data.code == 200){
             $scope.categories = data.data;
+
+            if($scope.categories)
+                for(var i=0; i<$scope.categories.length; i++) {
+                    for(var j=0; j<$scope.categories[i].specialization.length; j++)
+                        $scope.specialization.push($scope.categories[i].specialization[j]);
+                }
         }else {
             $scope.categories = null;
             alert("There was some error in retrieving categories. Please try again.");
@@ -45,8 +51,6 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
 
 
     $scope.addServiceAndCategory = function() {
-
-        console.log("in add cluster and category");
 
         data = {
             servicename : $scope.formData.servicename,
@@ -69,15 +73,33 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
                 e1.name === $scope.formData.categoryEntered;
             });
             if(!found) {
-                console.log("same value not found");
                 data.categoryChoice = false;
                 data.categoryEntered = $scope.formData.categoryEntered;
             }else{
-                return $scope.categorynamealreadyexist = true;
+                return ($scope.categorynamealreadyexist = true);
             }
         }
 
-        console.log(data);
+        //check if new specialization is entered or from an existing category
+        if($scope.specializationChoiceSelected == "existing") {
+            data.specializationChoice = true; //if specialization choice = true - specialization is from existing or else new specialization entered
+            data.specializationSelected = $scope.formData.specializationSelected;
+        }
+
+        if($scope.specializationChoiceSelected == "new"){ //name has to be unique
+
+            //check for unique name
+            var found = $scope.specialization.some(function(e1){
+                e1.name === $scope.formData.specializationEntered;
+            });
+            if(!found) {
+                data.specializationChoice = false;
+                data.specializationEntered = $scope.formData.specializationEntered;
+            }else{
+                return ($scope.specializationamealreadyexist = true);
+            }
+        }
+
 
         $http({
             method : 'POST',
@@ -85,30 +107,7 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
             data : data
         }).success(function(data){
 
-            console.log("success add category and services");
-            console.log(data);
-
-            //on success if user type is update user change to moderator
-            if($scope.currentUser.userAccessLevel == 'user') {
-
-                $http({
-                  method : "POST",
-                  url : '/api/updateUserAccessLevel/'+$scope.currentUser._id
-                }).success(function(data) {
-
-                    if(data.response.code == 200)
-                        $state("home.categories");
-
-                }).error(function(error) {
-                  console.log("Error updating user");
-                  console.log(error);
-                });
-
-            }else {
-                $state.go("home.categories");
-            }
-
-
+            $state.go("home.categories");
 
         }).error(function(error){
             console.log("in addd serivce and category error");
@@ -125,7 +124,15 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
     }
 
     $scope.toServicesPage = function(categoryId) {
-        $state.go("home.clusters", {categoryId: categoryId});
+        if($scope.currentUser) {
+            if($scope.currentUser.userAccessLevel == "user" || $scope.currentUser.userAccessLevel == "moderator") {
+                $state.go("home.userproblem", {categoryId: categoryId});
+            }
+            if($scope.currentUser.userAccessLevel == "admin")
+                $state.go("home.clusters", {categoryId: categoryId});
+        }else {
+            $state.go("home");
+        }
     }
 
 

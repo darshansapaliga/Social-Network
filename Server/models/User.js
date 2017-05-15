@@ -5,12 +5,9 @@ var mongoose = require('mongoose'),
 var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  username: {type: String, unique: true},
-  email: {type: String, unique: true},
+  email: {type: String},
   password: String,
-  birthday: Date,
   contactNo : Number,
-  location: String,
   userAccessTo: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Cluster' } ],
   userAccessLevel: { type: String, enum: ['admin', 'moderator', 'user'], default: 'user' }
 });

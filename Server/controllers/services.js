@@ -1,5 +1,5 @@
 var Service = require('../models/Service'),
-	ServiceGroup = require('../models/ServiceGroup');
+	Problem = require('../models/Problem');
 
 
 /*
@@ -10,22 +10,12 @@ var Service = require('../models/Service'),
 
 exports.getServices = function(req, res){
 
-	console.log("in get services");
-	console.log(req);
-
-	//return response
 	var response  = {};
-
-	//find the service and return
 	Service.find({category: req.categoryId}).exec(function(err, service){
-
-		console.log("inside service");
 
 		if(err)
 			res(null, response = {err : err, code : "404" });
 
-
-		//if service found
 		if(service) {
 			response.code = "200";
 			response.data = service;
@@ -33,12 +23,9 @@ exports.getServices = function(req, res){
 			response.code = "400";
 			response.data = null;
 		}
-		console.log(service);
 		res(null, response);
 
 	});
-
-
 }
 
 /*
@@ -46,36 +33,30 @@ exports.getServices = function(req, res){
  | GET SINGLE SERVICE
  |-----------------------------------------------------------
 */
-exports.getService = function(req, res){
+exports.getSingleService = function(req, res){
 
-
-	//return response
 	var response  = {};
+	Service.findById(req.serviceId)
+		.populate('problems')
+		.exec(function(err, service){
 
-	//find the service and return
-	Service.findOne({category: req.categoryId}).exec(function(err, service){
+			if(err)
+				res(null, response = {err : err, code : "404" });
 
-		if(err)
-			res(null, response = {err : err, code : "404" });
+			if(service) {
+				response.code = "200";
+				response.data = service;
+			}else {
+				response.code = "400";
+				response.data = null;
+			}
 
-
-		//if service found
-		if(service) {
-			response.code = "200";
-			response.data = service;
-		}else {
-			response.code = "400";
-			response.data = null;
-		}
-
-		res(null, response);
+			res(null, response);
 
 	});
 
 
 }
-
-
 
 
 
@@ -88,14 +69,8 @@ exports.getService = function(req, res){
 
 exports.addService = function(msg, callback){
 
-
-	console.log("-----------in addService--------");
-	console.log(msg);
-
-	//return response
 	var response  = {};
 
-	//find moderator
 	User.findOne({email: msg.email}).exec(function(err, user) {
 
 		if(err)
@@ -119,7 +94,6 @@ exports.addService = function(msg, callback){
 			service.save(function(err) {
 
 				if (!err) {
-				  console.log("service added successfull");
 				  response.code = "200";
 				}else {
 				  response.code = "404";
@@ -127,7 +101,6 @@ exports.addService = function(msg, callback){
 
 			});
 
-			console.log(service);
 			callback(null, response);
 
 		});
@@ -145,70 +118,37 @@ exports.addService = function(msg, callback){
  |-----------------------------------------------------------
 */
 
-exports.updateService = function(msg, callback){
+exports.updateService = function(req, res){
 
-
-	console.log("-----------in updateService--------");
-	console.log(msg);
 
 	//return response
 	var response  = {},
 		members = [];
 
-	//find the service to update
-	Service.findOne({name: msg.name}).exec(function(err, service){
-
+	Service.findById(req.serviceId).exec(function(err, service){
 		if(err)
-			callback(null, response = {err : err, code : "404" });
+			return err;
 
-		//find moderator
-		User.findOne({email: msg.email}).exec(function(err, user) {
+		if(!service)
+			return (response.code = 404);
 
+		service.name = req.name;
+		service.address = req.address;
+		service.contact = req.contact;
+		service.description = req.description;
+
+		members = service.members;
+		members.push(req.membersToAdd);
+		members = members;
+
+		service.save(function(err){
 			if(err)
-				callback(null, response = {err : err, code : "404" });
-
-			User.findOne({email: msg.memeberEmail}, function(err, member){
-
-				if(err)
-					callback(null, response = {err : err, code : "404" });
-
-				ServiceGroup.findOne({name: msg.servicesGroupName}, function(err, servicesGroup){
-
-					if(err)
-						callback(null, response = {err : err, code : "404" });
-
-
-					service.name = msg.name || service.name;
-					service.description = msg.description || service.description;
-					service.moderator = user._id;
-					service.servicesGroup = msg.servicesGroup || service.servicesGroup;
-					service.category = msg.category || service.category;
-
-					//adding members to members list
-					members = service.members;
-					members.add(member._id);
-					service.members = members;
-
-
-					service.save(function(err) {
-
-						if (!err) {
-						  console.log("service updated successfull");
-						  response.code = "200";
-						}else {
-						  response.code = "404";
-						}
-
-					});
-
-					console.log(service);
-					callback(null, response);
-
-
-				}); //end of serviceGroup
-			});
-
+				return (response.code = 404);
 		});
+
+		response.code = 200;
+		response.data = service;
+		res(null, response);
 
 	}); //end of service find
 
@@ -224,46 +164,121 @@ exports.updateService = function(msg, callback){
  |-----------------------------------------------------------
 */
 
-exports.deleteService = function(msg, callback){
+exports.deleteService = function(req, res){
 
 
-	console.log("-----------in deleteService--------");
-	console.log(msg);
-
-	//return response
 	var response  = {};
-
-	//find the service and return
-	Service.findOne({name: msg.name}).exec(function(err, service){
+	Service.findOne({name: req.name}).exec(function(err, service){
 
 		if(err)
-			callback(null, response = {err : err, code : "404" });
+			res(null, response = {err : err, code : "404" });
 
-
-		//if service found
 		if(service) {
-
-			user.remove(function(err, user){
+			service.remove(function(err){
 				if(err)
-					callback(null, response = {err : err, code : "404" });
-
-				response.code = "200";
-
+					res(null, response = {err : err, code : "404" });
 			});
-
-
 			response.code = "200";
-
 		}else {
 			response.code = "404";
 			response.data = null;
 			response.error = false;
 		}
+		res(null, response);
+	});
+}
 
-		console.log(service);
 
+exports.postUserProblem = function(req, res) {
+
+
+	Service.find().exec(function(err, services){
+
+		var response = {};
+		var problem = new Problem({
+			name: req.name,
+			contact: req.contact,
+			address: req.address,
+			description: req.description,
+			userId: req.userId,
+			categoryId: req.categoryId
+		});
+
+		problem.save(function(err){
+			if(err)
+				res(null, (response.error = err) );
+		});
+
+		// for(var i=0; i<services.length; i++) {
+		// 	services.specialization.find(function(specializationFound) {
+		// 		        return specializationFound == req.specialization;
+		// 		    }
+		// }
+
+		for(var i=0; i<services.length; i++) {
+			for(var j=0; j<services[i].specialization.length; j++) {
+				if(services[i].specialization[j] == req.specialization) {
+					var problemToAdd = [], clientToAdd = [];
+					problemToAdd = services[i].problems;
+					clientToAdd = services[i].clients;
+
+					problemToAdd.push(problem);
+					clientToAdd.push(req.userId);
+					services[i].problems = [], services[i].clients = [];
+					services[i].problems = problemToAdd;
+					services[i].clients = clientToAdd;
+				}
+			}
+		}
+
+		response.code = 200;
+		response.data = problem;
+		res(null, response);
 
 	});
 
+}
 
+
+exports.getModeratorServices = function(req, res) {
+	var response = {};
+
+	Service.find({moderator: req.moderatorId}).exec(function(err, services){
+		if(err)
+			res(null, (response.error = err) );
+		response.code = 200;
+		response.data = services;
+		res(null, response);
+	});
+}
+
+exports.getServicesForApprovals = function(req, res) {
+	var response = {};
+	Service.find({approved: false}).exec(function(err, services) {
+		if(err)
+			return err;
+		if(!services)
+			return res(null, response.code = 404);
+
+		response.code = 200;
+		response.data = services;
+		res(null, response);
+	});
+}
+
+
+exports.updateServiceStatus = function(req, res) {
+	var response = {};
+	Service.findById(req.serviceId).exec(function(err, service) {
+		if(err)
+			return err;
+		if(!service)
+			return res(null, response.code = 404);
+
+		service.approved = true;
+
+		response.code = 200;
+		response.data = service;
+		res(null, response);
+	});
 }

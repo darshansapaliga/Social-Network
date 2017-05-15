@@ -86,8 +86,6 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
         url : '/api/signup',
         data : data
       }).success(function(data) {
-        console.log("success signup");
-        console.log(data);
         if(data == "email")
           alert("Email already associated with another account");
         else
@@ -104,7 +102,7 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
         method : "POST",
         url : '/api/logout'
       }).success(function(data) {
-
+          $scope.currentUser = null;
           $state.go("home");
 
       }).error(function(error) {
@@ -115,9 +113,16 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
 
 
 
-    $scope.toServices = function() {
-        $state.go("home.toCategories");
+    $scope.toCategories = function() {
+        $state.go("home.categories");
     };
 
+    $scope.toModeratorServices = function() {
+        $state.go("home.moderatorServices");
+    }
+
+    $scope.toApprovals = function() {
+        $state.go("home.adminApprovals");
+    }
 
 });

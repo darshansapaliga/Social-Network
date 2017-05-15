@@ -14,37 +14,30 @@ exports.postLogin = function(req, res, next){
   var user = {
     email: req.body.email
   };
-  mq_client.make_request('getUser_queue', user, function(err, results){
-    console.log("in getUser_queue "+results);
-    if(err)
-      throw err;
 
-    //passport authenticate and session only if user is found else return false
-    if(results)
-      passport.authenticate('local', function(err, user, info){
-        if (err)
+  passport.authenticate('local', function(err, user, info){
+    if (err)
+      return next(err);
+
+      console.log("in passport");
+      console.log(user);
+    if(!user) {
+      res.send("password");
+    }else {
+
+      console.log("--------------in poassssport authenticate------------");
+      console.log(user);
+      req.logIn(user, function(err){
+        if(err)
           return next(err);
-        if(!user) {
-          res.send("password");
-        }else {
 
-          console.log("--------------in poassssport authenticate------------");
-          console.log(user);
-          req.logIn(user, function(err){
-            if(err)
-              return next(err);
+        res.send(user);
+      });
 
-            res.send(user);
-          });
-
-        }
-
-      })(req, res, next);
-    else {
-      res.send("email");
     }
 
-  });
+  })(req, res, next);
+
 };
 
 //signup
@@ -70,7 +63,8 @@ exports.postSignUp = function(req,res){
     //   else {
         //rabbitmq message call
         mq_client.make_request('signup_queue', user, function(err, results){
-          console.log("in signup_queue "+results);
+          console.log("in signup_queue ");
+          console.log(results);
           if(err)
             throw err;
         });
@@ -90,9 +84,8 @@ exports.postSignUp = function(req,res){
 // };
 
 exports.getLogout = function(req, res){
-  req.session.destroy(function(err){
-    res.send("success");
-  });
+  req.logout();
+  res.send(true);
 };
 
 exports.deleteUser = function(req, res) {
@@ -100,18 +93,20 @@ exports.deleteUser = function(req, res) {
 };
 
 exports.getCurrentUser = function(req, res){
-  var userDetails = req.user;
-  userDetails = {
-    _id: req.user._id,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    username: req.user.username,
-    email: req.user.email,
-    password: req.user.password,
-    birthday: req.user.birthday,
-    contactNo: req.user.contactNo,
-    userAccessLevel: req.user.userAccessLevel
-  }
+    if(req.user)
+      userDetails = {
+        _id: req.user._id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        username: req.user.username,
+        email: req.user.email,
+        password: req.user.password,
+        birthday: req.user.birthday,
+        contactNo: req.user.contactNo,
+        userAccessLevel: req.user.userAccessLevel
+      }
+     else
+        userDetails = null;
   res.send(userDetails);
 };
 

@@ -40,7 +40,7 @@ var userController = require('./controllers/user'),
 app.post('/api/login', userController.postLogin);
 // app.delete('/api/user/:id', userController.deleteUser);
 app.post('/api/signup', userController.postSignUp);
-app.post('/api/logout', userController.isLoggedIn, userController.getLogout);
+app.post('/api/logout', userController.getLogout);
 
 //for verifying user and user session
 app.get('/api/currentUser', userController.getCurrentUser);
@@ -50,10 +50,22 @@ app.get('/api/getCategories', categoryController.getCategories);
 
 app.post('/api/postServiceAndCategory', categoryController.postServiceAndCategory);
 
-//update user accesslevel
-app.post('/api/updateUserAccessLevel/:id', userController.updateUserAccessLevel);
-
 app.get('/api/services/:id', serviceController.getServices);
+
+app.get('/api/getServicesForApprovals', serviceController.getServicesForApprovals);
+
+//get single service
+app.get('/api/getSingleService/:serviceId', serviceController.getSingleService);
+
+app.post('/api/userproblem', serviceController.postUserProblem);
+
+app.get('/api/moderatorServices/:moderatorId', serviceController.getModeratorServices);
+
+app.post('/api/updateService', serviceController.updateService);
+
+app.post('/api/updateServiceStatus/:serviceId', serviceController.updateServiceStatus);
+
+app.post('/api/deleteService', serviceController.deleteService);
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

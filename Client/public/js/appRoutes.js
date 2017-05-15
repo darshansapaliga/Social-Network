@@ -1,6 +1,3 @@
-// angular.module('appRoutes', ['ui.router'])
-//   .config(['$routeProvider', '$stateProvider', '$locationProvider', function($routeProvider, $stateProvider, $locationProvider) {
-
 var developmentApp = angular.module('developmentApp',['ui.router']);
 
 developmentApp.config(function($stateProvider, $urlRouterProvider){
@@ -29,27 +26,6 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
         url: 'services',
         templateUrl: '../views/categories.ejs',
         controller: 'CategoryController'
-        // resolve: {
-        //       userSession: function($state){
-        //             //check user for session
-        //             $http({
-        //               method : "GET",
-        //               url : '/api/currentUser'
-        //             }).success(function(data) {
-        //
-        //                 //set user access level
-        //                 $rootScope.userAccessLevel = data.userAccessLevel;
-        //
-        //                 if(data._id) {
-        //                     return true;
-        //                 }
-        //                 if(!data) {
-        //                     $state.go('/');
-        //                     alert("Please login to access to this page");
-        //                 }
-        //             })
-        //       }
-        //     }
     })
     .state('home.addCategory', {
         url: 'addService',
@@ -58,25 +34,39 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
     })
     .state('home.clusters', {
         url: 'clusters',
-        templateUrl: '../views/service.ejs',
+        templateUrl: '../views/services.ejs',
         params: {categoryId: null},
         controller: 'ServiceController'
     })
-    // .state('home.addservice', {
-    //     url: 'addService',
-    //     templateUrl: '../views/addService.ejs',
-    //     controller: 'ServiceController'
-    // })
-    // .state('home.service', {
-    //     url: '/{serviceId}',
-    //     templateUrl: '../views/services/service.ejs',
-    //     controller: 'ServiceController'
-    // })
-    // .state('home.services.service.updateService', {
-    //     url: '/updateService',
-    //     templateUrl: '../views/services/updateService.ejs',
-    //     controller: 'ServiceController'
-    // })
+    .state('home.userproblem', {
+        url: 'problem',
+        templateUrl: '../views/servicesform.ejs',
+        params: {categoryId: null},
+        controller: 'ServiceFormController'
+    })
+    .state('home.service', {
+        url: 'service',
+        templateUrl: '../views/service.ejs',
+        params: {serviceId: null},
+        controller: 'SingleServiceController'
+    })
+    .state('home.moderatorServices', {
+        url: 'moderatorServices',
+        templateUrl: '../views/moderatorServices.ejs',
+        controller: 'ModeratorServiceController'
+    })
+    .state('home.editService', {
+        url: 'editService',
+        templateUrl: '../views/editService.ejs',
+        params: {serviceId: null},
+        controller: 'EditServiceController'
+    })
+    .state('home.adminApprovals', {
+        url: 'approvals',
+        templateUrl: '../views/adminApprovals.ejs',
+        params: {serviceId: null},
+        controller: 'EditServiceController'
+    })
 
 }).controller("MainController", function(){
 

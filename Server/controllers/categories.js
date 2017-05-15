@@ -6,8 +6,6 @@ var Category = require('../models/Category'),
 
 exports.getCategories = function(req, res) {
 
-    console.log("in get categories");
-    console.log(req);
     var response = {};
 
     Category.find({}, function(err, categories){
@@ -17,40 +15,16 @@ exports.getCategories = function(req, res) {
 
         response.data = categories;
         response.code = 200;
-        console.log(response);
         res(null, response);
 
     });
 
 }
 
-// exports.addCategory = function(req, res) {
-//
-//     console.log("in add category");
-//     console.log(req);
-//
-//     var response = {};
-//
-//     var category = new Category({
-//         name : req.name
-//     });
-//
-//     category.save(function(error){
-//         if(error)
-//             return response.error = error;
-//     });
-//
-//     response.success = true;
-//     res(null, response);
-//
-// }
-
 
 exports.postServiceAndCategory = function(req, res) {
 
     var response = {};
-
-    //find moderator
     User.findOne({_id: req.data.moderator}).exec(function(err, user) {
 
         if(err)
@@ -61,6 +35,19 @@ exports.postServiceAndCategory = function(req, res) {
             if(err)
                 res(null, response = {err : err, code : "404" });
 
+            //update updateUserAccessLevel if it is user
+            if(user.userAccessLevel == "user") {
+                user.userAccessLevel = "moderator";
+                user.save(function(err){
+                    if(err)
+                        return err;
+                });
+            }
+
+            var response = {
+                data : {}
+            };
+
             //if new category is entered crete new category
             if(!req.data.categoryChoice) {
 
@@ -68,6 +55,12 @@ exports.postServiceAndCategory = function(req, res) {
                     name : req.data.categoryEntered
                 });
 
+                var specialization = [];
+                //if specialization choice selected or entered new
+                if(!req.data.specializationChoice) {
+                    specialization.push(req.data.specializationEntered);
+                    category.specialization.push(specialization);
+                }
                 category.save(function(err){
                     if(err)
                         return res(null, (response.error = err));
@@ -80,18 +73,18 @@ exports.postServiceAndCategory = function(req, res) {
                   contact: req.data.contact,
                   description: req.data.description,
                   moderator: user._id,
-                  category: category._id
+                  category: category._id,
+                  specialization: specialization
 
                 });
 
-                service.save(function(err) {
 
+                service.save(function(err) {
                     if (!err) {
                       response.code = "200";
                     }else {
                       response.code = "404";
                     }
-
                 });
 
                 response.data.service = service;
@@ -100,6 +93,14 @@ exports.postServiceAndCategory = function(req, res) {
 
             }else{
 
+                var specialization2 = [];
+                //if specialization choice selected or entered new
+                if(!req.data.specializationChoice) {
+                    specialization2.push(req.data.specializationEntered);
+                }else {
+                    specialization2.push(req.data.specializationSelected);
+                }
+
                 var service = new Service({
 
                   name: req.data.servicename,    //should be unique check and without spaces - checked on frontend
@@ -107,7 +108,8 @@ exports.postServiceAndCategory = function(req, res) {
                   contact: req.data.contact,
                   description: req.data.description,
                   moderator: user._id,
-                  category: categorySelected._id
+                  category: categorySelected._id,
+                  specialization: specialization2
 
                 });
 
@@ -126,11 +128,6 @@ exports.postServiceAndCategory = function(req, res) {
                 res(null, response);
 
             }
-
-            console.log(res);
-
         });
     });
-
-
 }

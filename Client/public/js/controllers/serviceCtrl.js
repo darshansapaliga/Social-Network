@@ -2,21 +2,19 @@ developmentApp.controller('ServiceController', function($scope, $state, $statePa
 
     $scope.noservicefound = false;
 
-    console.log("in service controller");
-
     // get current user details
     $http({
       method : "GET",
       url : '/api/currentUser'
     }).success(function(data) {
-      console.log("success currentUser");
-      console.log(data);
 
       if(data){
         $scope.currentUser = data;
 
-        //set user access level
-        // $scope.userAccessLevel = data.userAccessLevel;
+        if($scope.currentUser.userAccessLevel != "admin") {
+            alert("You do not have access to this page");
+            $state.go("home.services");
+        }
 
       }else {
         $state.go("home");
@@ -29,25 +27,50 @@ developmentApp.controller('ServiceController', function($scope, $state, $statePa
     });
 
 
-    console.log("category id from params");
-    console.log($state.params.categoryId);
-
     // get all services
     $http({
       method : "GET",
       url : '/api/services/'+$state.params.categoryId
     }).success(function(data) {
-      console.log("success get all services");
-      console.log(data);
 
-      if(!data) {
-          $scope.noservicefound = true;
-      }
+      if(data.code == 200)
+          $scope.services = data.data;
+      else
+        $scope.noservicefound = true;
 
     }).error(function(error) {
-      console.log("Error in get services");
+      console.log("Error in get all services");
       console.log(error);
     });
+
+
+
+
+    $scope.editService = function() {
+        data = {
+            servicename : $scope.formData.servicename,
+            address : $scope.formData.address,
+            contact : $scope.formData.contact,
+            description : $scope.formData.description,
+            categoryId: $state.params.categoryId
+        };
+
+        $http({
+        method : "POST",
+        url : '/api/editService',
+        data : data
+        }).success(function(data) {
+
+            if(data.code == 200)
+            $state.go("home.services", {categoryId: $state.params.categoryId});
+            else
+            alert("Error in editing service. Please try again");
+
+        }).error(function(error) {
+            console.log("Error in edit services");
+            console.log(error);
+        });
+    }
 
 
 
@@ -57,8 +80,15 @@ developmentApp.controller('ServiceController', function($scope, $state, $statePa
         $state.go("home.addservices");
     }
 
-    $scope.toservicepage = function() {
-        $state.go("home.service");
+    $scope.toservicepage = function(serviceId) {
+        if($scope.currentUser) {
+            if($scope.currentUser.userAccessLevel == "moderator" || $scope.currentUser.userAccessLevel == "admin")
+                $state.go("home.service", {serviceId: serviceId});
+            else
+                $state.go("home.services", {categoryId: $state.params.categoryId});
+        }else {
+            $state.go("home");
+        }
     }
 
 });

@@ -5,9 +5,13 @@ var serviceSchema = new mongoose.Schema({
   address: String,
   contact: String,
   description: {type: String},
+  specialization: [String],
   moderator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  members: [ {type: mongoose.Schema.Types.ObjectId, ref: 'User'} ],
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
+  clients: [ {type: mongoose.Schema.Types.ObjectId, ref: 'User'} ],
+  members: [ {type: String} ],
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+  approved: {type: Boolean, default: false},
+  problems: [{type: mongoose.Schema.Types.ObjectId, ref: 'Problem'}]
 });
 
 module.exports = mongoose.model('Service', serviceSchema);
