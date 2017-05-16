@@ -80,7 +80,7 @@ app.post('/api/deleteService', serviceController.deleteService);
 //listen
 var port = Number(process.env.PORT || 3000);
 app.listen(port, function(){
-  console.log("Server connected");
+  console.log("Server connected on port:"+port);
 });
 
 module.exports = app;
