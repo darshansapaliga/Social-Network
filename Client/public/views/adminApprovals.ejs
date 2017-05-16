@@ -1,0 +1,44 @@
+
+
+    <!-- Contact Section -->
+    <section id="contact">
+
+<div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2 style="margin-left:100px">Your Pending Requests</h2>
+                            <hr class="star-primary">
+
+                            <img src="img/portfolio/clustersicon.png" class="img-responsive img-centered" alt="" style="height: 150px; width:200px;">
+
+                                 <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+
+
+                                     <div ng-repeat="service in serviceToApprove" style=" height: 40px; width: 60%;font-size: 30px;text-align:center;margin-top:2px;margin-left:175px;"  class="linker">
+                                        <a href="/Users/huzaifa.aejaz/Desktop/HTML files/startbootstrap-freelancer-gh-pages/editService.html" class="portfolio-link" data-toggle="modal">
+                                            <p>{{service.name}}
+                                        </a>
+                                        <a href="" ng-click="approveRequest()"><img src="img/portfolio/pluss.png" height="30px" width="40px" class="buttonapproval" style="margin-left:5px"/></a>
+                                        <img src="img/portfolio/canncel.png" height="30px" width="40px" class="buttonapproval"style="margin-right:5px"/>
+                                       </p>
+                                    </div>
+
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+
+                            <ul class="list-inline item-details">
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+    </section>

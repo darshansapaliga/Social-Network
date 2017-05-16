@@ -65,7 +65,7 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
         url: 'approvals',
         templateUrl: '../views/adminApprovals.ejs',
         params: {serviceId: null},
-        controller: 'EditServiceController'
+        controller: 'AdminApprovalsController'
     })
 
 }).controller("MainController", function(){

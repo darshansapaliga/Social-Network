@@ -58,7 +58,7 @@ exports.getModeratorServices = function(req, res) {
     });
 }
 
-exports.deleteService = function() {
+exports.deleteService = function(req, res) {
 
     mq_client.make_request('deleteService_queue', req.body, function(err, results){
         if(err)
@@ -69,7 +69,7 @@ exports.deleteService = function() {
     });
 }
 
-exports.getServicesForApprovals = function() {
+exports.getServicesForApprovals = function(req, res) {
 
     mq_client.make_request('getServicesForApprovals_queue', {}, function(err, results){
         if(err)
@@ -80,7 +80,7 @@ exports.getServicesForApprovals = function() {
     });
 }
 
-exports.updateServiceStatus = function() {
+exports.updateServiceStatus = function(req, res) {
 
     mq_client.make_request('updateServiceStatus_queue', {serviceId: req.params.serviceId}, function(err, results){
         if(err)

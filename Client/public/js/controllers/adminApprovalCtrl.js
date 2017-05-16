@@ -1,5 +1,6 @@
-developmentApp.controller('UserController', function($scope, $state, $http) {
+developmentApp.controller('AdminApprovalsController', function($scope, $state, $http) {
 
+    console.log("in admin approvals");
     //user signup validation section
     $scope.formshow = true;
 
@@ -27,9 +28,11 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
       method : "GET",
       url : '/api/getServicesForApprovals'
     }).success(function(data) {
+        console.log("in success getServicesForApprovals");
       if(data.code == 200){
 
           $scope.serviceToApprove = data.data;
+          console.log($scope.serviceToApprove);
 
         }else{
             alert("There was an error in getting approvals. Please try again");
