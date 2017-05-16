@@ -65,7 +65,7 @@ app.post('/api/updateService', serviceController.updateService);
 
 app.post('/api/updateServiceStatus/:serviceId', serviceController.updateServiceStatus);
 
-app.post('/api/deleteService', serviceController.deleteService);
+app.post('/api/deleteService/:serviceId', serviceController.deleteService);
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

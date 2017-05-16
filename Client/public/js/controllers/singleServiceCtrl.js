@@ -33,10 +33,12 @@ developmentApp.controller('SingleServiceController', function($scope, $state, $s
     });
 
 
-    $scope.deleteService = function() {
+    $scope.deleteService = function(serviceId) {
+        console.log("in deltet");
+        console.log(serviceId);
         $http({
             method : "POST",
-            url : '/api/deleteService/'+$state.params.serviceId
+            url : '/api/deleteService/'+serviceId
         }).success(function(data) {
             if(data.code == 200){
                 $state.go("home.categories");

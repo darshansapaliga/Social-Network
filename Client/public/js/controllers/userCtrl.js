@@ -16,6 +16,7 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
             //send user to services page
             $state.go("home.categories");
         }else{
+            $scope.currentUser = null;
             $state.go("home");
         }
     }).error(function(error) {
@@ -53,14 +54,17 @@ developmentApp.controller('UserController', function($scope, $state, $http) {
         }).success(function(data) {
           if(data == "email")
             alert("Email already associated with another account");
-          else if(data == "password")
-            alert("password incorrect");
+          else if(data == "password") {
+              $scope.currentUser = null;
+              return alert("password incorrect");
+           }
 
             if(data.email !== null){
               $scope.currentUser = data;
                 $state.go("home.categories");
             }else{
-                alert("Error in login please try again");
+                $scope.currentUser = null;
+                return alert("Error in login please try again");
             }
 
         }).error(function(error) {

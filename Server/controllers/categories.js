@@ -24,13 +24,16 @@ exports.getCategories = function(req, res) {
 
 exports.postServiceAndCategory = function(req, res) {
 
+    console.log("in postServiceAndCategory");
+    console.log(req);
+
     var response = {};
     User.findOne({_id: req.data.moderator}).exec(function(err, user) {
 
         if(err)
             res(null, response = {err : err, code : "404" });
 
-        Category.findOne({name: req.data.categorySelected}, function(err, categorySelected){
+        Category.findById(req.data.categorySelected, function(err, categorySelected){
 
             if(err)
                 res(null, response = {err : err, code : "404" });

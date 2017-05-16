@@ -167,7 +167,7 @@ cnn.on('ready', function(){
     //delete service
     cnn.queue('deleteService_queue', function(q){
       q.subscribe(function(message, headers, deliveryInfo, m){
-        serviecController.deleteService(message, function(err,res){
+        serviceController.deleteService(message, function(err,res){
           if(err)
             console.log(err);
           console.log("------in deleteService_queue backend queue calling-----");

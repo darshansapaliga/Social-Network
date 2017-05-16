@@ -149,9 +149,9 @@
                         <div class="row control-group"  ng-if="categoryChoiceSelected == 'existing' && categoryChoiceSelected != 'new' ">
                           <div class="form-group col-xs-12 floating-label-form-group controls">
 
-                              <select ng-model="formData.categoryselected">
+                              <select ng-model="formData.categorySelected">
                                        <option selected="selected">Choose a category</option>
-                                       <option value="{{category._id}}" ng-repeat="categoryToChoose in categories">{{categoryToChoose.name}}</option>
+                                       <option value="{{categoryToChoose._id}}" ng-repeat="categoryToChoose in categories">{{categoryToChoose.name}}</option>
 
                             </select>
                               <p class="help-block text-danger"></p>

@@ -16,6 +16,7 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
       if(data){
             $scope.currentUser = data;
         }else{
+            $scope.currentUser = null;
             $state.go("home");
         }
     }).error(function(error) {
@@ -65,7 +66,9 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
             data.categoryChoice = true; //if category choice = true - category is from existing or else new category entered
             data.categorySelected = $scope.formData.categorySelected;
         }
-
+        console.log("in postServiceAndCategory");
+        console.log(data);
+        console.log($scope.formData.categorySelected);
         if($scope.categoryChoiceSelected == "new"){ //name has to be unique
 
             //check for unique name

@@ -56,7 +56,7 @@
                         <div class="row control-group" style="width:250px;margin-left:440px;font-size:20px">
                             Members:
                             <ul style="list-style-type: none;font-size:17px;">
-                               <li ng-repeat="member in service.members">
+                               <li ng-repeat="member in service.members track by $index">
                                    {{member}}
                                </li>
                             </ul>

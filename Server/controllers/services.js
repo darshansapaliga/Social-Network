@@ -165,9 +165,12 @@ exports.updateService = function(req, res){
 
 exports.deleteService = function(req, res){
 
+	console.log("in delete services");
+	console.log(req);
+
 
 	var response  = {};
-	Service.findOne({name: req.name}).exec(function(err, service){
+	Service.findById(req.serviceId).exec(function(err, service){
 
 		if(err)
 			res(null, response = {err : err, code : "404" });

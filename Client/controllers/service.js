@@ -59,8 +59,10 @@ exports.getModeratorServices = function(req, res) {
 }
 
 exports.deleteService = function(req, res) {
+    console.log("in delete servoce");
+    console.log(req.params);
 
-    mq_client.make_request('deleteService_queue', req.body, function(err, results){
+    mq_client.make_request('deleteService_queue', {serviceId: req.params.serviceId}, function(err, results){
         if(err)
             return res.send(err);
 
