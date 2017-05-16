@@ -11,7 +11,7 @@ var Service = require('../models/Service'),
 exports.getServices = function(req, res){
 
 	var response  = {};
-	Service.find({category: req.categoryId}).exec(function(err, service){
+	Service.find({category: req.categoryId, approved: true}).exec(function(err, service){
 
 		if(err)
 			res(null, response = {err : err, code : "404" });
@@ -145,7 +145,6 @@ exports.updateService = function(req, res){
 			if(err)
 				return (response.code = 404);
 		});
-
 		response.code = 200;
 		response.data = service;
 		res(null, response);
@@ -218,6 +217,8 @@ exports.postUserProblem = function(req, res) {
 		for(var i=0; i<services.length; i++) {
 			for(var j=0; j<services[i].specialization.length; j++) {
 				if(services[i].specialization[j] == req.specialization) {
+					console.log("found specialization from services");
+					console.log(services[i]);
 					var problemToAdd = [], clientToAdd = [];
 					problemToAdd = services[i].problems;
 					clientToAdd = services[i].clients;
@@ -227,6 +228,12 @@ exports.postUserProblem = function(req, res) {
 					services[i].problems = [], services[i].clients = [];
 					services[i].problems = problemToAdd;
 					services[i].clients = clientToAdd;
+					services[i].save(function(err){
+						if(err)
+							return (response.code = 404);
+					});
+
+					break;
 				}
 			}
 		}
@@ -276,7 +283,10 @@ exports.updateServiceStatus = function(req, res) {
 			return res(null, response.code = 404);
 
 		service.approved = true;
-
+		service.save(function(err){
+			if(err)
+				return (response.code = 500);
+		})
 		response.code = 200;
 		response.data = service;
 		res(null, response);

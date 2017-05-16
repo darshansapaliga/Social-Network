@@ -57,10 +57,10 @@ exports.postServiceAndCategory = function(req, res) {
 
                 var specialization = [];
                 //if specialization choice selected or entered new
-                if(!req.data.specializationChoice) {
+                // if(!req.data.specializationChoice) {
                     specialization.push(req.data.specializationEntered);
                     category.specialization.push(specialization);
-                }
+                // }
                 category.save(function(err){
                     if(err)
                         return res(null, (response.error = err));

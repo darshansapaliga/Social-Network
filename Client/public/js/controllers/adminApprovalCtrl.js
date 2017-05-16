@@ -50,7 +50,7 @@ developmentApp.controller('AdminApprovalsController', function($scope, $state, $
           url : '/api/updateServiceStatus/'+serviceId
         }).success(function(data) {
           if(data.code == 200){
-                $state.go("home.adminApp");
+                $state.go("home.categories");
             }else{
                 alert("There was an error in updating the status. Please try again");
             }

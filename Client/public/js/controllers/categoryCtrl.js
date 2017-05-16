@@ -84,6 +84,7 @@ developmentApp.controller('CategoryController', function($scope, $state, $rootSc
         if($scope.specializationChoiceSelected == "existing") {
             data.specializationChoice = true; //if specialization choice = true - specialization is from existing or else new specialization entered
             data.specializationSelected = $scope.formData.specializationSelected;
+            data.specializationEntered = $scope.formData.specializationSelected;
         }
 
         if($scope.specializationChoiceSelected == "new"){ //name has to be unique

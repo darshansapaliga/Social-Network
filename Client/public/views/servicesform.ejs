@@ -75,6 +75,9 @@
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label for="desc">specialization</label>
                                 <textarea rows="1" ng-model="formData.specialization" class="form-control" cols="50" name="specialization" placeholder ="Add a specialization for this job" style="font-family:Times New Roman;color:#919599" ></textarea>
+                                  <select ng-model="formData.specialization">
+                                      <option value="{{special}}" ng-repeat="special in specializations">{{special}}</option>
+                                  </select>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>

@@ -49,8 +49,11 @@ developmentApp.controller('EditServiceController', function($scope, $state, $htt
           url : '/api/updateService',
           data : data
         }).success(function(data) {
+            console.log("in update service");
+            console.log(data);
           if(data.code == 200){
                 $scope.service = data.data;
+                $state.go("home.moderatorServices");
             }else {
                 $scope.service = null;
                 alert("There was some error in retrieving service. Please try again.");
