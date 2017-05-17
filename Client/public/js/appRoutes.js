@@ -34,7 +34,7 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
     })
     .state('home.clusters', {
         url: 'clusters',
-        templateUrl: '../views/services.ejs',
+        templateUrl: '../views/allServices.ejs',
         params: {categoryId: null},
         controller: 'ServiceController'
     })
@@ -46,7 +46,7 @@ developmentApp.config(function($stateProvider, $urlRouterProvider){
     })
     .state('home.service', {
         url: 'service',
-        templateUrl: '../views/service.ejs',
+        templateUrl: '../views/singleService.ejs',
         params: {serviceId: null},
         controller: 'SingleServiceController'
     })
