@@ -27,7 +27,7 @@ var userController = require('./controllers/user'),
 //cookieParser
 app.use(cookieParser());
 
-var cnn = amqp.createConnection({host:'127.0.0.1'});
+var cnn = amqp.createConnection({url: "amqp://test:test@ec2-34-210-114-218.us-west-2.compute.amazonaws.com"});
 
 cnn.on('ready', function(){
 	console.log("listening on queue");

@@ -1,6 +1,6 @@
 var amqp = require('amqp');
 
-var connection = amqp.createConnection({host:'127.0.0.1'});
+var connection = amqp.createConnection({url: "amqp://test:test@ec2-34-210-114-218.us-west-2.compute.amazonaws.com"});
 var rpc = new (require('./amqprpc'))(connection);
 
 //make request to rabbitmq
