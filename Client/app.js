@@ -75,7 +75,10 @@ app.post('/api/deleteService/:serviceId', serviceController.deleteService);
 // });
 
 // error handlers
-
+app.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
+});
 
 //listen
 var port = Number(process.env.PORT || 3000);
